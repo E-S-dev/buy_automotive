@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
@@ -40,10 +42,13 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-
-        if ( !Auth::guard('api')->check($this->only('email', 'password'), $this->boolean('remember'))) {
+        $credentials = $this->only('email', 'password');
+        $user = User::where('email', $credentials['email'])->first();
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            // زيادة محاولات الفشل في تسجيل الدخول
             RateLimiter::hit($this->throttleKey());
-
+    
+            // رمي استثناء مع رسالة خطأ
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
