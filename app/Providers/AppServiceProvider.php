@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,10 +34,11 @@ class AppServiceProvider extends ServiceProvider
                 Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
                 [
                     'id' => $notifiable->getKey(),
-                    'hash' => shal($notifiable->getEmailForVerification),
+                    'hash' => sha1($notifiable->getEmailForVerification() ),
                 ]
                 );
-                return config('app.frontend_url')."?verification_url=".$verificationUrl;
+                $encodedVerificationUrl = urlencode($verificationUrl);
+                return config('app.frontend_url') . "?verification_url=" . $encodedVerificationUrl;
         });
     }
 }
