@@ -17,9 +17,14 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        $user = User::where('email', $request->email)->first();
 
-        return response()->noContent();
+        return response()->json([
+            'message' => 'You Logged n successfully!',
+            'token' => $token,
+            'user' => $user,
+            'role' => $user->getRoleNames(),
+        ], 200);
     }
 
     /**
@@ -27,11 +32,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): Response
     {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        $request->user()->currentAccessToken()->dlete();
 
         return response()->noContent();
     }
