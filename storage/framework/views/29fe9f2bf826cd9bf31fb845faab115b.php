@@ -8,7 +8,7 @@
     <meta content="true" name="HandheldFriendly" />
     <meta content="width=device-width" name="viewport" />
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no" />
-    <title>{{ __('Verify Email Address') }}</title>
+    <title><?php echo e(__('Verify Email Address')); ?></title>
     <style type="text/css">
         * {
             margin: 0;
@@ -102,24 +102,26 @@
     <div class="container">
         <div class="card">
             <div class="box">
-                <div class="logo"><img class="logo" src="{{ asset('logo/logo.png')}}"/></div>
+                <div class="logo"><img class="logo" src="<?php echo e(asset('logo/logo.png')); ?>"/></div>
                 <div class="content">
-                    <h2>{{ __('Hello!') }}</h2>
-                    <p>{{ __('Please click the button below to verify your email address.') }}</p>
+                    <h2><?php echo e(__('Hello!')); ?></h2>
+                    <p><?php echo e(__('Please click the button below to verify your email address.')); ?></p>
                     <div class="button">
-                        <a href="{{ $url }}" class="verifyButton">
-                            {{ __('Verify Email Address') }}
+                        <a href="<?php echo e($url); ?>" class="verifyButton">
+                            <?php echo e(__('Verify Email Address')); ?>
+
                         </a>
                     </div>
                     <div class="paragraph">
-                        <p>{{ __('If you did not create an account, no further action is required.') }}</p>
+                        <p><?php echo e(__('If you did not create an account, no further action is required.')); ?></p>
                     </div>
-                    <p class="regards">{{ __('Regards') }} <span>{{ __('BUY AUTOMOTIVE') }}</span></p>
+                    <p class="regards"><?php echo e(__('Regards')); ?> <span><?php echo e(__('BUY AUTOMOTIVE')); ?></span></p>
                     <hr>
-                    <p class="footer"> {{ __('If you are having trouble clicking the Verify Email Address button copy and paste the URL below into your web browser') }} {{ $url }} </p>
+                    <p class="footer"> <?php echo e(__('If you are having trouble clicking the Verify Email Address button copy and paste the URL below into your web browser')); ?> <?php echo e($url); ?> </p>
                 </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\buy_automotive\resources\views/emails/verify-email.blade.php ENDPATH**/ ?>
