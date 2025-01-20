@@ -95,6 +95,8 @@
         }
         .container .card .box .content .footer{
             font-size: 14px;
+            overflow-wrap: break-word;
+            max-width: 400px;
         }
     </style>
 </head>
