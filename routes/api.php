@@ -7,5 +7,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
     return $request->user();
 });
 
+Route::get('/', function(){
+    return ['Hello api'];
+});
 
 require __DIR__.'/auth.php';

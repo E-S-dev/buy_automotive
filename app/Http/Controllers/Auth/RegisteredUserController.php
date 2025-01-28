@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
 
         try {
 
+            //Start the Transaction
             DB::beginTransaction();
             $user = User::create([
                 'first_name' => $request->first_name,
@@ -42,11 +43,18 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->string('password')),
             ]);
 
+            //Assign user role to the users who newrly registerd
             $user->assignRole('user');
+
+            //send verification email
             event(new Registered($user));
+
+            //create auth token
             $token = $user->createToken('authToken'.$user->name)->plainTextToken;
 
+            //store data n database when everything suuccess
             DB::Commit();
+
             return response()->json([
                 'message' => 'User Registered successfullu. An Verification email sent to your email!',
                 'token' => $token,
@@ -60,10 +68,6 @@ class RegisteredUserController extends Controller
                 'message' => 'An error occure While registration proccess, please try again later!'
             ],500);
         }
-        
-
-        
-
         
 
         return response()->noContent();
